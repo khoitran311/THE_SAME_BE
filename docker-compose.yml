@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  db:
+    container_name: ${PG_CONTAINER_NAME}
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: ${PGDATA}
+    ports:
+      - '5432:5432'
+    volumes:
+      - dbthesame:/data/postgres-the-same/data
+
+  pgadmin:
+    container_name: ${PGADMIN_CONTAINER_NAME}
+    image: dpage/pgadmin4:5.5
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_LISTEN_PORT: ${PGADMIN_LISTEN_PORT}
+    ports:
+      - '8089:80'
+    volumes:
+      - pgadmin-data:/data/the-same-postgres/admin
+volumes:
+  dbthesame:
+  pgadmin-data:
