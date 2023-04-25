@@ -1,8 +1,25 @@
 version: '3.8'
 services:
-  db:
+  api:
+    container_name: ${API_CONTAINER_NAME}
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: development
+    volumes:
+      - dbthesame:/data/postgres-the-same/api
+    env_file:
+      - .env
+    command: npm run start
+    ports:
+      - 3456:3456
+    depends_on:
+      - postgres
+      - pgadmin
+
+  postgres:
     container_name: ${PG_CONTAINER_NAME}
-    image: postgres
+    image: postgres:9.6
     restart: always
     environment:
       POSTGRES_DB: ${POSTGRES_DB}

@@ -1,28 +1,26 @@
-# syntax=docker/dockerfile:1
+# Base image
+FROM node:18
 
-# Start your image with a node base image
-FROM node:18-alpine
+# Create app directory
+WORKDIR /usr/src/app
 
-# Create an application directory
-RUN mkdir -p /app
-
-# Set the /app directory as the working directory for any command that follows
-WORKDIR /app
-
-# Copy the local app package and package-lock.json file to the container
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
 
-# Copy local directories to the working directory of our docker image (/app)
+# Install app dependencies
+RUN npm install
+
+# Bundle app source
 COPY . .
 
-# Install node packages, install serve, build the app, and remove dependencies at the end
-RUN npm install \
-    && npm install -g serve \
-    && npm run build \
-    && rm -fr node_modules
+RUN npm i -g @nestjs/cli
 
-# Specify that the application in the container listens on port 3000
-EXPOSE 3000
+RUN npm ci –omit=dev
 
-# Start the app using serve command
-CMD [ "serve", "-s", "build" ]
+# Creates a "dist" folder with the production build
+RUN npm run build
+
+USER node
+
+# Start the server using the production build
+CMD ["npm", "run", "start:prod"]
