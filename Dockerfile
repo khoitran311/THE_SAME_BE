@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 RUN npm i -g @nestjs/cli
-
+RUN npm install -g npm@9.6.5
 RUN npm ci –omit=dev
 
 # Creates a "dist" folder with the production build
