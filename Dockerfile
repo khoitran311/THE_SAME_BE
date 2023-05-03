@@ -1,17 +1,19 @@
 # Base image
 FROM node:18
 
-# Create app directory
-WORKDIR /usr/src/app
+RUN mkdir -p /usr/src/app && chown -R node:node /usr/src/app
 
+WORKDIR /usr/src/app
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
 
-# Install app dependencies
-RUN npm install
-
 # Bundle app source
 COPY . .
+
+COPY package.json /usr/src/app/
+# Install app dependencies
+RUN npm install
+COPY . /usr/src/app
 
 RUN npm i -g @nestjs/cli
 RUN npm install -g npm@9.6.5
