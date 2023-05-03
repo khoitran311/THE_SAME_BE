@@ -1,11 +1,16 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
+import { CacheModule } from '@nestjs/cache-manager';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserController } from './UserModule/user/user.controller';
 
 @Module({
-  imports: [],
-  controllers: [AppController, UserController],
+  imports: [
+    CacheModule.register({
+      isGlobal: true,
+    }),
+  ],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
