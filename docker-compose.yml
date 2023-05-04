@@ -3,9 +3,9 @@ services:
   api:
     container_name: ${API_CONTAINER_NAME}
     build:
-      dockerfile: Dockerfile
       context: .
-      # target: development
+      target: development
+      dockerfile: Dockerfile
     volumes:
       - apithesame:/data/postgres-the-same/api
     env_file:
@@ -16,7 +16,8 @@ services:
     depends_on:
       - postgres
       - pgadmin
-
+    restart: unless-stopped
+    
   postgres:
     container_name: ${PG_CONTAINER_NAME}
     image: postgres:9.6
