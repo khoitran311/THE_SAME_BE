@@ -17,7 +17,7 @@ services:
       - postgres
       - pgadmin
     restart: unless-stopped
-    
+
   postgres:
     container_name: ${PG_CONTAINER_NAME}
     image: postgres:9.6
