@@ -18,6 +18,15 @@ export class UsersService {
     return this.UsersRepository.findOne({ where: { id } });
   }
 
+  async findByUsername(username: string): Promise<Users> {
+    console.log(username);
+    return this.UsersRepository?.findOneOrFail({
+      where: {
+        username,
+      },
+    });
+  }
+
   async create(Users: Partial<Users>): Promise<Users> {
     const newUsers = this.UsersRepository.create(Users);
     return this.UsersRepository.save(newUsers);

@@ -10,6 +10,7 @@ import { RecommendsModule } from './recommends/recommends.module';
 import { FirmsModule } from './firms/firms.module';
 import { InterestModule } from './interest/interest.module';
 import { CategorysModule } from './categorys/categorys.module';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -30,6 +31,7 @@ import { CategorysModule } from './categorys/categorys.module';
     FirmsModule,
     InterestModule,
     CategorysModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
