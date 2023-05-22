@@ -1,17 +1,16 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Inject, Injectable } from '@nestjs/common';
 import { Roles } from './roles.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class RolesService {
   constructor(
-    @InjectRepository(Roles)
-    private RolesRepository: Repository<Roles>,
+    @Inject('ROLES_REPOSITORY')
+    private rolesRepository: Repository<Roles>,
   ) {}
 
   async create(Roles: Partial<Roles>): Promise<Roles> {
-    const newRoles = this.RolesRepository.create(Roles);
-    return this.RolesRepository.save(newRoles);
+    const newRoles = this.rolesRepository.create(Roles);
+    return this.rolesRepository.save(newRoles);
   }
 }
