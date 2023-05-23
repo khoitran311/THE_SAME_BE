@@ -1,8 +1,21 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Put,
+  UseInterceptors,
+} from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { CreateRolesDto } from './roles.dto';
 import { Roles } from './roles.entity';
 import { FormDataRequest } from 'nestjs-form-data';
+import { TransformInterceptor } from 'src/transform.interceptor';
+import { ResponseMessage } from '../response.decorator';
+import { ROLE_DELETED, ROLE_INSERTED, ROLE_SELECTED, ROLE_UPDATED } from '../response.constants';
 
 @Controller('roles')
 export class RolesController {
@@ -10,42 +23,62 @@ export class RolesController {
 
   //get all Roles
   @Get()
-  async findAll(): Promise<Roles[]> {
-    return this.rolesService.findAll();
+  @UseInterceptors(TransformInterceptor)
+  @ResponseMessage(ROLE_SELECTED)
+  async findAll(): Promise<any> {
+    const result = this.rolesService.findAll();
+    return result;
   }
 
-  //get user by id
+  //get role by id
   @Get(':id')
+  @UseInterceptors(TransformInterceptor)
+  @ResponseMessage(ROLE_SELECTED)
   async findOne(@Param('id') id: number): Promise<Roles> {
-    const user = await this.rolesService.findOne(id);
-    if (!user) {
-      throw new NotFoundException('User does not exist!');
+    const role = await this.rolesService.findOne(id);
+    if (!role) {
+      throw new NotFoundException('Role does not exist!');
     } else {
-      return user;
+      return role;
     }
   }
 
   //create role
   @Post()
   @FormDataRequest()
+  @UseInterceptors(TransformInterceptor)
+  @ResponseMessage(ROLE_INSERTED)
   async create(@Body() roles: CreateRolesDto): Promise<Roles> {
+    // const role = this.rolesService.findByName(roles.name);
+    // if (!role) {
+    //   throw new NotFoundException('Data already exists!');
+    // } else {
     return this.rolesService.create(roles);
+    // }
   }
 
   //update user
   @Put(':id')
   @FormDataRequest()
-  async update(@Param('id') id: number, @Body() role: Roles): Promise<Roles> {
-    return this.rolesService.update(id, role);
+  @UseInterceptors(TransformInterceptor)
+  @ResponseMessage(ROLE_UPDATED)
+  async update(@Param('id') id: number, @Body() roles: Roles): Promise<Roles> {
+    // const role = this.rolesService.findByName(roles.name);
+    // if (role) {
+    //   throw new NotFoundException('Data already exists!');
+    // }
+    return this.rolesService.update(id, roles);
   }
 
   //delete user
   @Delete(':id')
+  @UseInterceptors(TransformInterceptor)
+  @ResponseMessage(ROLE_DELETED)
   async delete(@Param('id') id: number): Promise<any> {
     //handle error if user does not exist
-    const user = await this.rolesService.findOne(id);
-    if (!user) {
-      throw new NotFoundException('User does not exist!');
+    const role = await this.rolesService.findOne(id);
+    if (!role) {
+      throw new NotFoundException('Role does not exist!');
     }
     return this.rolesService.delete(id);
   }

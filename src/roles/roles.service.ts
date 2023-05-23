@@ -31,4 +31,12 @@ export class RolesService {
   async delete(id: number): Promise<void> {
     await this.rolesRepository.delete(id);
   }
+
+  async findByName(name: string): Promise<Roles> {
+    return this.rolesRepository.findOne({
+      where: {
+        name,
+      },
+    });
+  }
 }
