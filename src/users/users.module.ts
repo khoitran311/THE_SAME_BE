@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { DatabaseModule } from '../database/database.module';
-import { usersProviders } from './users.providers';
+import { Users } from './users.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { NestjsFormDataModule } from 'nestjs-form-data';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [TypeOrmModule.forFeature([Users]), NestjsFormDataModule],
   controllers: [UsersController],
-  providers: [...usersProviders, UsersService],
+  providers: [UsersService],
   exports: [UsersService],
 })
 export class UsersModule {}
