@@ -5,6 +5,7 @@ import {
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
+  JoinColumn,
 } from 'typeorm';
 import { Users } from '../users/users.entity';
 @Entity()
@@ -29,5 +30,6 @@ export class Roles {
   created_at: Date;
 
   @ManyToOne(() => Users, (user) => user.role)
+  @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
   user: Users;
 }

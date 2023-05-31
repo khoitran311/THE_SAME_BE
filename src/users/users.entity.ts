@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Roles } from '../roles/roles.entity';
 import { Interest } from 'src/interest/interest.entity';
+import { genderUser } from 'src/app/enum/common';
 
 @Entity()
 export class Users {
@@ -17,8 +18,8 @@ export class Users {
   @Column()
   username: string;
 
-  @Column()
-  gender: string;
+  @Column({ type: 'enum', enum: genderUser, default: genderUser.OTHER })
+  gender: genderUser;
 
   @Column()
   avatar: string;
@@ -29,8 +30,8 @@ export class Users {
   @Column()
   password: string;
 
-  @OneToMany(() => Roles, (role) => role.user)
-  role: Roles[];
+  @OneToMany(() => Roles, (role) => role.user, { cascade: ['insert', 'update'] })
+  public role: Roles[];
 
   @Column()
   address: string;

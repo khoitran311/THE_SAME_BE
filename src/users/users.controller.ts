@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Users } from './users.entity';
-import { CreateUserDto } from './user.dto';
+import { CreateUserDto, UpdateUserDto } from './user.dto';
 import { TransformInterceptor } from '../transform.interceptor';
 import { ResponseMessage } from '../response.decorator';
 import { USER_DELETED, USER_INSERTED, USER_SELECTED, USER_UPDATED } from 'src/response.constants';
@@ -53,9 +53,10 @@ export class UsersController {
 
   //update user
   @Put(':id')
+  @FormDataRequest()
   @UseInterceptors(TransformInterceptor)
   @ResponseMessage(USER_UPDATED)
-  async update(@Param('id') id: number, @Body() user: Users): Promise<any> {
+  async update(@Param('id') id: number, @Body() user: UpdateUserDto): Promise<Users> {
     return this.usersService.update(id, user);
   }
 
@@ -63,8 +64,7 @@ export class UsersController {
   @Delete(':id')
   @UseInterceptors(TransformInterceptor)
   @ResponseMessage(USER_DELETED)
-  async delete(@Param('id') id: number): Promise<any> {
-    //handle error if user does not exist
+  async delete(@Param('id') id: number): Promise<void> {
     const user = await this.usersService.findOne(id);
     if (!user) {
       throw new NotFoundException('User does not exist!');
