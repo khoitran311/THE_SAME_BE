@@ -57,6 +57,10 @@ export class UsersController {
   @UseInterceptors(TransformInterceptor)
   @ResponseMessage(USER_UPDATED)
   async update(@Param('id') id: number, @Body() user: UpdateUserDto): Promise<Users> {
+    const userData = await this.usersService.findOne(id);
+    if (!userData) {
+      throw new NotFoundException('User does not exist!');
+    }
     return this.usersService.update(id, user);
   }
 

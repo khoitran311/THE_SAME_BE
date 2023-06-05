@@ -2,9 +2,10 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { Roles } from '../roles/roles.entity';
 import { Interest } from 'src/interest/interest.entity';
@@ -15,7 +16,9 @@ export class Users {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({
+    unique: true,
+  })
   username: string;
 
   @Column({ type: 'enum', enum: genderUser, default: genderUser.OTHER })
@@ -24,19 +27,30 @@ export class Users {
   @Column()
   avatar: string;
 
-  @Column()
+  @Column({
+    unique: true,
+  })
   email: string;
 
   @Column()
   password: string;
 
-  @OneToMany(() => Roles, (role) => role.user, { cascade: ['insert', 'update'] })
-  public role: Roles[];
+  @ManyToMany(() => Roles, (role) => role.user, {
+    cascade: true,
+  })
+  @JoinTable()
+  role: Roles[];
 
-  @Column()
+  @Column({
+    unique: false,
+    nullable: true,
+  })
   address: string;
 
-  @OneToMany(() => Interest, (interest) => interest.user)
+  @ManyToMany(() => Interest, (interest) => interest.user, {
+    cascade: true,
+  })
+  @JoinTable()
   interest: Interest[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })

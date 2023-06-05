@@ -1,6 +1,14 @@
-import { ArrayMinSize, IsArray, IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import {
+  Allow,
+  ArrayMinSize,
+  IsArray,
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { genderUser } from 'src/app/enum/common';
-import { Unique } from 'typeorm';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -25,24 +33,46 @@ export class CreateUserDto {
 
   @IsArray() // Nếu có dữ liệu phải là dạng array
   interest: number[];
+
+  @IsOptional()
+  @IsString()
+  address: string;
+
+  @IsOptional()
+  @IsString()
+  avatar: string;
 }
 
 export class UpdateUserDto {
+  @IsOptional()
   @IsString()
-  username: string;
+  public username?: string;
 
+  @IsOptional()
   @IsEmail()
-  email: string;
+  public email?: string;
 
+  @IsOptional()
   @IsArray() // Nếu có dữ liệu phải là dạng array
-  role: number[];
+  public role?: number[];
 
+  @IsOptional()
   @IsEnum(genderUser)
-  gender: genderUser;
+  public gender?: genderUser;
 
+  @IsOptional()
   @IsString()
-  password: string;
+  password?: string;
 
+  @IsOptional()
   @IsArray() // Nếu có dữ liệu phải là dạng array
-  interest: number[];
+  public interest?: number[];
+
+  @IsOptional()
+  @IsString()
+  public address: string;
+
+  @IsOptional()
+  @IsString()
+  public avatar: string;
 }

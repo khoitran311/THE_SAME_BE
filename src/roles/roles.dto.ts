@@ -1,15 +1,21 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateRolesDto {
   @IsNotEmpty()
   @IsString()
   name: string;
+
+  @IsOptional()
+  @IsString()
   description: string;
 }
 
-export class EditRolesDto {
+export class UpdateRolesDto {
   @IsNotEmpty()
   @IsString()
-  name: string;
-  description: string;
+  name?: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
 }
