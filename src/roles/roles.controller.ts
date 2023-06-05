@@ -63,10 +63,10 @@ export class RolesController {
   @UseInterceptors(TransformInterceptor)
   @ResponseMessage(ROLE_UPDATED)
   async update(@Param('id') id: number, @Body() roles: Roles): Promise<Roles> {
-    // const role = this.rolesService.findByName(roles.name);
-    // if (role) {
-    //   throw new NotFoundException('Data already exists!');
-    // }
+    const role = await this.rolesService.findOne(id);
+    if (!role) {
+      throw new NotFoundException('Role does not exist!');
+    }
     return this.rolesService.update(id, roles);
   }
 
@@ -75,7 +75,6 @@ export class RolesController {
   @UseInterceptors(TransformInterceptor)
   @ResponseMessage(ROLE_DELETED)
   async delete(@Param('id') id: number): Promise<any> {
-    //handle error if user does not exist
     const role = await this.rolesService.findOne(id);
     if (!role) {
       throw new NotFoundException('Role does not exist!');

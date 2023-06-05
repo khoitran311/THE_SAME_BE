@@ -2,9 +2,9 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
 } from 'typeorm';
 import { Users } from '../users/users.entity';
 
@@ -32,6 +32,6 @@ export class Interest {
   })
   created_at: Date;
 
-  @ManyToOne(() => Users, (user) => user.interest)
+  @ManyToMany(() => Users, (user) => user.interest)
   user: Users;
 }

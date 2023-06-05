@@ -39,4 +39,15 @@ export class RolesService {
       },
     });
   }
+
+  async findListRole(roles: number[]): Promise<Partial<Roles[]>> {
+    return await Promise.all(
+      roles.map(
+        async (uuidRole) =>
+          await this.rolesRepository.findOne({
+            where: { id: uuidRole },
+          }),
+      ),
+    );
+  }
 }
