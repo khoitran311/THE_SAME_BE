@@ -28,11 +28,11 @@ export class UsersService {
     });
   }
 
-  async findByUsername(username: string): Promise<Users> {
-    console.log(username);
+  async findByEmail(email: string): Promise<Users> {
+    console.log(email);
     return this.usersRepository.findOneOrFail({
       where: {
-        username,
+        email,
       },
     });
   }
@@ -86,7 +86,8 @@ export class UsersService {
       .createQueryBuilder()
       .update()
       .set({
-        username: UsersData.username,
+        last_name: UsersData.last_name,
+        first_name: UsersData.first_name,
         gender: UsersData.gender,
         avatar: UsersData.avatar,
         email: UsersData.email,

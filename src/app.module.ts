@@ -12,6 +12,7 @@ import { InterestModule } from './interest/interest.module';
 import { CategorysModule } from './categorys/categorys.module';
 import { AuthModule } from './auth/auth.module';
 import { NestjsFormDataModule } from 'nestjs-form-data';
+import { RegisterModule } from './register/register.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -34,6 +35,7 @@ import { NestjsFormDataModule } from 'nestjs-form-data';
     CategorysModule,
     AuthModule,
     NestjsFormDataModule,
+    RegisterModule,
   ],
   controllers: [AppController],
   providers: [AppService],

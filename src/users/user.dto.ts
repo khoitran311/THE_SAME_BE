@@ -1,19 +1,14 @@
-import {
-  Allow,
-  ArrayMinSize,
-  IsArray,
-  IsEmail,
-  IsEnum,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { ArrayMinSize, IsArray, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { genderUser } from 'src/app/enum/common';
 
 export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
-  username: string;
+  last_name: string;
+
+  @IsNotEmpty()
+  @IsString()
+  first_name: string;
 
   @IsNotEmpty()
   @IsEmail()
@@ -36,17 +31,21 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsString()
-  address: string;
+  public address?: string;
 
   @IsOptional()
   @IsString()
-  avatar: string;
+  public avatar?: string;
 }
 
 export class UpdateUserDto {
   @IsOptional()
   @IsString()
-  public username?: string;
+  public last_name?: string;
+
+  @IsOptional()
+  @IsString()
+  public first_name?: string;
 
   @IsOptional()
   @IsEmail()

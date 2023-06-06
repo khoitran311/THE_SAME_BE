@@ -7,3 +7,5 @@ export const ROLE_INSERTED = 'Role Inserted';
 export const ROLE_UPDATED = 'Role Updated';
 export const ROLE_DELETED = 'Role Deleted';
 export const ROLE_SELECTED = 'Role Selected';
+
+export const REGISTER = 'Register Successfully';
