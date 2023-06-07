@@ -1,5 +1,15 @@
-import { ArrayMinSize, IsArray, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  ArrayMinSize,
+  IsArray,
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Validate,
+} from 'class-validator';
 import { genderUser } from 'src/app/enum/common';
+import { CustomEmailValidation } from './class-validator';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -12,6 +22,7 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @IsEmail()
+  @Validate(CustomEmailValidation)
   email: string;
 
   @IsArray() // Nếu có dữ liệu phải là dạng array
@@ -49,6 +60,7 @@ export class UpdateUserDto {
 
   @IsOptional()
   @IsEmail()
+  @Validate(CustomEmailValidation)
   public email?: string;
 
   @IsOptional()

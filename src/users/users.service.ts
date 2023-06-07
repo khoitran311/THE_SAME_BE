@@ -30,7 +30,7 @@ export class UsersService {
 
   async findByEmail(email: string): Promise<Users> {
     console.log(email);
-    return this.usersRepository.findOneOrFail({
+    return this.usersRepository.findOne({
       where: {
         email,
       },

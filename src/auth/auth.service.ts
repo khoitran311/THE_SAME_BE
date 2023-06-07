@@ -1,23 +1,28 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
-import { JwtService } from '@nestjs/jwt';
+import { RolesService } from 'src/roles/roles.service';
+import { RegisterDto } from './auth.dto';
+import { Users } from 'src/users/users.entity';
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UsersService, private jwtService: JwtService) {}
+  constructor(private readonly usersService: UsersService, private readonly rolesService: RolesService) {}
 
-  async signIn(email: string, pass: string): Promise<any> {
-    const user = await this.usersService.findByEmail(email);
-    if (user?.password !== pass) {
-      throw new UnauthorizedException();
-    }
-    const payload = { email: user.email, sub: user.id };
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-      data: user,
-    };
+  async register(register: RegisterDto): Promise<Users> {
+    const roles = await this.rolesService.findByName('User');
+    console.log(roles);
+    const newUser: Users = await this.usersService.create({
+      email: register.email,
+      last_name: register.last_name,
+      first_name: register.first_name,
+      password: register.password,
+      role: [roles.id],
+      interest: [],
+      gender: register.gender,
+      address: '',
+      avatar: '',
+    });
+
+    return newUser;
   }
 }
