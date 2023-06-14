@@ -1,13 +1,32 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UseInterceptors,
+  NotFoundException,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { FormDataRequest } from 'nestjs-form-data';
+import { TransformInterceptor } from 'src/transform.interceptor';
+import { ResponseMessage } from 'src/response.decorator';
+import { REGISTER } from 'src/response.constants';
+import { RegisterDto } from './auth.dto';
+import { Users } from 'src/users/users.entity';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @HttpCode(HttpStatus.OK)
-  @Post('login')
-  signIn(@Body() signInDto: Record<string, any>) {
-    return this.authService.signIn(signInDto.username, signInDto.password);
+  @Post('register')
+  @FormDataRequest()
+  @UseInterceptors(TransformInterceptor)
+  @ResponseMessage(REGISTER)
+  async register(@Body() register: RegisterDto): Promise<Users> {
+    if (register.confirm_password !== register.password) {
+      throw new NotFoundException('Password incorrect');
+    }
+    return this.authService.register(register);
   }
 }
