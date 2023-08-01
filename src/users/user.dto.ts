@@ -1,9 +1,9 @@
 import {
   ArrayMinSize,
   IsArray,
+  IsDefined,
   IsEmail,
   IsEnum,
-  IsNotEmpty,
   IsOptional,
   IsString,
   Validate,
@@ -12,15 +12,15 @@ import { genderUser } from 'src/app/enum/common';
 import { CustomEmailValidation } from './class-validator';
 
 export class CreateUserDto {
-  @IsNotEmpty()
+  @IsDefined()
   @IsString()
   last_name: string;
 
-  @IsNotEmpty()
+  @IsDefined()
   @IsString()
   first_name: string;
 
-  @IsNotEmpty()
+  @IsDefined()
   @IsEmail()
   @Validate(CustomEmailValidation)
   email: string;
@@ -30,10 +30,10 @@ export class CreateUserDto {
   role: number[];
 
   @IsEnum(genderUser)
-  @IsNotEmpty()
+  @IsDefined()
   gender: genderUser;
 
-  @IsNotEmpty()
+  @IsDefined()
   @IsString()
   password: string;
 

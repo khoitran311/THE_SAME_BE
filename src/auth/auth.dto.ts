@@ -1,30 +1,30 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsString, Validate } from 'class-validator';
+import { IsDefined, IsEmail, IsEnum, IsString, Validate } from 'class-validator';
 import { genderUser } from 'src/app/enum/common';
 import { CustomEmailValidation } from './class-validator';
 
 export class RegisterDto {
-  @IsNotEmpty()
+  @IsDefined()
   @IsEmail()
   @Validate(CustomEmailValidation)
   email: string;
 
-  @IsNotEmpty()
+  @IsDefined()
   @IsString()
   last_name: string;
 
-  @IsNotEmpty()
+  @IsDefined()
   @IsString()
   first_name: string;
 
-  @IsNotEmpty()
+  @IsDefined()
   @IsString()
   password: string;
 
-  @IsNotEmpty()
+  @IsDefined()
   @IsString()
   confirm_password: string;
 
   @IsEnum(genderUser)
-  @IsNotEmpty()
+  @IsDefined()
   gender: genderUser;
 }

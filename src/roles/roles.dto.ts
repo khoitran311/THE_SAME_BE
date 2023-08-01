@@ -1,8 +1,8 @@
-import { IsNotEmpty, IsOptional, IsString, Validate } from 'class-validator';
+import { IsDefined, IsOptional, IsString, Validate } from 'class-validator';
 import { CustomNameRoleValidation } from './class-validator';
 
 export class CreateRolesDto {
-  @IsNotEmpty()
+  @IsDefined()
   @IsString()
   @Validate(CustomNameRoleValidation)
   public name: string;
@@ -13,7 +13,7 @@ export class CreateRolesDto {
 }
 
 export class UpdateRolesDto {
-  @IsNotEmpty()
+  @IsDefined()
   @IsString()
   @Validate(CustomNameRoleValidation)
   public name?: string;

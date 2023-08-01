@@ -10,7 +10,7 @@ export class CustomNameRoleValidation implements ValidatorConstraintInterface {
 
   async validate(value: string, _args: ValidationArguments): Promise<boolean> {
     const role = await this.rolesService.findByName(value);
-    console.log(role);
+
     if (role) return false;
     return true;
   }
