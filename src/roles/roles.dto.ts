@@ -1,21 +1,24 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsDefined, IsOptional, IsString, Validate } from 'class-validator';
+import { CustomNameRoleValidation } from './class-validator';
 
 export class CreateRolesDto {
-  @IsNotEmpty()
+  @IsDefined()
   @IsString()
-  name: string;
+  @Validate(CustomNameRoleValidation)
+  public name: string;
 
   @IsOptional()
   @IsString()
-  description: string;
+  public description?: string;
 }
 
 export class UpdateRolesDto {
-  @IsNotEmpty()
+  @IsDefined()
   @IsString()
-  name?: string;
+  @Validate(CustomNameRoleValidation)
+  public name?: string;
 
   @IsOptional()
   @IsString()
-  description?: string;
+  public description?: string;
 }

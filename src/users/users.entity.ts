@@ -16,10 +16,11 @@ export class Users {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({
-    unique: true,
-  })
-  username: string;
+  @Column()
+  last_name: string;
+
+  @Column()
+  first_name: string;
 
   @Column({ type: 'enum', enum: genderUser, default: genderUser.OTHER })
   gender: genderUser;

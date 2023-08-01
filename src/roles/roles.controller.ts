@@ -10,7 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { RolesService } from './roles.service';
-import { CreateRolesDto } from './roles.dto';
+import { CreateRolesDto, UpdateRolesDto } from './roles.dto';
 import { Roles } from './roles.entity';
 import { FormDataRequest } from 'nestjs-form-data';
 import { TransformInterceptor } from 'src/transform.interceptor';
@@ -49,20 +49,15 @@ export class RolesController {
   @UseInterceptors(TransformInterceptor)
   @ResponseMessage(ROLE_INSERTED)
   async create(@Body() roles: CreateRolesDto): Promise<Roles> {
-    // const role = this.rolesService.findByName(roles.name);
-    // if (!role) {
-    //   throw new NotFoundException('Data already exists!');
-    // } else {
     return this.rolesService.create(roles);
-    // }
   }
 
-  //update user
+  //update role
   @Put(':id')
   @FormDataRequest()
   @UseInterceptors(TransformInterceptor)
   @ResponseMessage(ROLE_UPDATED)
-  async update(@Param('id') id: number, @Body() roles: Roles): Promise<Roles> {
+  async update(@Param('id') id: number, @Body() roles: UpdateRolesDto): Promise<Roles> {
     const role = await this.rolesService.findOne(id);
     if (!role) {
       throw new NotFoundException('Role does not exist!');

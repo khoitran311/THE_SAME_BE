@@ -1,22 +1,28 @@
 import {
-  Allow,
   ArrayMinSize,
   IsArray,
+  IsDefined,
   IsEmail,
   IsEnum,
-  IsNotEmpty,
   IsOptional,
   IsString,
+  Validate,
 } from 'class-validator';
 import { genderUser } from 'src/app/enum/common';
+import { CustomEmailValidation } from './class-validator';
 
 export class CreateUserDto {
-  @IsNotEmpty()
+  @IsDefined()
   @IsString()
-  username: string;
+  last_name: string;
 
-  @IsNotEmpty()
+  @IsDefined()
+  @IsString()
+  first_name: string;
+
+  @IsDefined()
   @IsEmail()
+  @Validate(CustomEmailValidation)
   email: string;
 
   @IsArray() // Nếu có dữ liệu phải là dạng array
@@ -24,10 +30,10 @@ export class CreateUserDto {
   role: number[];
 
   @IsEnum(genderUser)
-  @IsNotEmpty()
+  @IsDefined()
   gender: genderUser;
 
-  @IsNotEmpty()
+  @IsDefined()
   @IsString()
   password: string;
 
@@ -36,20 +42,25 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsString()
-  address: string;
+  public address?: string;
 
   @IsOptional()
   @IsString()
-  avatar: string;
+  public avatar?: string;
 }
 
 export class UpdateUserDto {
   @IsOptional()
   @IsString()
-  public username?: string;
+  public last_name?: string;
+
+  @IsOptional()
+  @IsString()
+  public first_name?: string;
 
   @IsOptional()
   @IsEmail()
+  @Validate(CustomEmailValidation)
   public email?: string;
 
   @IsOptional()
